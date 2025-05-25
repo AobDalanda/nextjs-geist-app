@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Our Doctors - {{ parent() }}{% endblock %}
+
+{% block body %}
+{# Hero Section #}
+<div class="bg-blue-700">
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl font-extrabold text-white sm:text-5xl sm:tracking-tight lg:text-6xl">Meet Our Doctors</h1>
+            <p class="max-w-3xl mt-6 mx-auto text-xl text-blue-200">
+                Our team of experienced healthcare professionals is dedicated to providing you with the highest quality medical care.
+            </p>
+        </div>
+    </div>
+</div>
+
+{# Doctors Grid #}
+<div class="bg-gray-50 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
+            {% for doctor in doctors %}
+                <div class="hover-card bg-white overflow-hidden shadow-lg rounded-lg">
+                    <div class="relative">
+                        {% if doctor.imageUrl %}
+                            <img class="h-64 w-full object-cover" src="{{ doctor.imageUrl }}" alt="Dr. {{ doctor.user.fullName }}">
+                        {% else %}
+                            <div class="h-64 w-full bg-gray-200 flex items-center justify-center">
+                                <i class="fas fa-user-md text-6xl text-gray-400"></i>
+                            </div>
+                        {% endif %}
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-xl font-semibold text-white">Dr. {{ doctor.user.fullName }}</h3>
+                            <p class="text-sm text-gray-300">{{ doctor.specialization }}</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <h4 class="text-sm font-medium text-gray-900">Specialties:</h4>
+                            <div class="mt-2 flex flex-wrap gap-2">
+                                {% for specialty in doctor.specialties|default(['General Medicine']) %}
+                                    <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                        {{ specialty }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-medium text-gray-900">Services:</h4>
+                            <ul class="mt-2 space-y-1">
+                                {% for service in doctor.services %}
+                                    <li class="text-sm text-gray-500">
+                                        • {{ service.name }} ({{ service.duration }} min)
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        {% if doctor.education %}
+                            <div class="mb-4">
+                                <h4 class="text-sm font-medium text-gray-900">Education:</h4>
+                                <p class="mt-1 text-sm text-gray-500">{{ doctor.education }}</p>
+                            </div>
+                        {% endif %}
+
+                        {% if doctor.experience %}
+                            <div class="mb-4">
+                                <h4 class="text-sm font-medium text-gray-900">Experience:</h4>
+                                <p class="mt-1 text-sm text-gray-500">{{ doctor.experience }} years</p>
+                            </div>
+                        {% endif %}
+
+                        {% if doctor.languages %}
+                            <div class="mb-4">
+                                <h4 class="text-sm font-medium text-gray-900">Languages:</h4>
+                                <div class="mt-2 flex flex-wrap gap-2">
+                                    {% for language in doctor.languages %}
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                            {{ language }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="bg-gray-50 px-6 py-4">
+                        {% if app.user %}
+                            <a href="{{ path('app_appointment_new', {'doctor': doctor.id}) }}" 
+                               class="block w-full text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                                Book Appointment
+                            </a>
+                        {% else %}
+                            <div class="space-y-2">
+                                <a href="{{ path('app_register') }}" 
+                                   class="block w-full text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                                    Register to Book
+                                </a>
+                                <p class="text-xs text-center text-gray-500">
+                                    Already have an account? 
+                                    <a href="{{ path('app_login') }}" class="text-blue-600 hover:text-blue-500">Login</a>
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{# Why Choose Us Section #}
+<div class="bg-white py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:text-center">
+            <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Why Choose Us</h2>
+            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                Expert Care You Can Trust
+            </p>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                Our doctors are committed to providing exceptional healthcare services with a patient-centered approach.
+            </p>
+        </div>
+
+        <div class="mt-10">
+            <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+                <div class="relative">
+                    <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                        <i class="fas fa-certificate text-xl"></i>
+                    </div>
+                    <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Board Certified</p>
+                    <p class="mt-2 ml-16 text-base text-gray-500">
+                        All our doctors are board certified with extensive training and experience in their specialties.
+                    </p>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                        <i class="fas fa-clock text-xl"></i>
+                    </div>
+                    <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Flexible Scheduling</p>
+                    <p class="mt-2 ml-16 text-base text-gray-500">
+                        Book appointments at your convenience with our easy online scheduling system.
+                    </p>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                        <i class="fas fa-comments text-xl"></i>
+                    </div>
+                    <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Patient-Centered Care</p>
+                    <p class="mt-2 ml-16 text-base text-gray-500">
+                        We prioritize clear communication and personalized attention for every patient.
+                    </p>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                        <i class="fas fa-shield-alt text-xl"></i>
+                    </div>
+                    <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Quality Assurance</p>
+                    <p class="mt-2 ml-16 text-base text-gray-500">
+                        We maintain the highest standards of medical care and patient safety.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# CTA Section #}
+<div class="bg-blue-700">
+    <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+            <span class="block">Ready to book an appointment?</span>
+            <span class="block">Our doctors are here to help.</span>
+        </h2>
+        <p class="mt-4 text-lg leading-6 text-blue-200">
+            Choose from our team of experienced healthcare professionals and book your appointment today.
+        </p>
+        {% if app.user %}
+            <a href="{{ path('app_appointment_new') }}" 
+               class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 sm:w-auto">
+                Book Now
+            </a>
+        {% else %}
+            <a href="{{ path('app_register') }}" 
+               class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 sm:w-auto">
+                Create Account
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
