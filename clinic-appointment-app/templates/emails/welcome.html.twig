@@ -1,0 +1,87 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Welcome to {{ site_name }}{% endblock %}
+
+{% block content %}
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #1a56db; margin-bottom: 10px;">Welcome to {{ site_name }}!</h1>
+        <p style="color: #4b5563; font-size: 16px;">
+            Thank you for creating an account with us.
+        </p>
+    </div>
+
+    <div style="background-color: #ffffff; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);">
+        <h2 style="color: #1f2937; margin-bottom: 15px;">Hello {{ user.firstName }},</h2>
+        <p style="color: #4b5563; line-height: 1.5; margin-bottom: 15px;">
+            We're excited to have you join our healthcare community. Your account has been successfully created, and you can now access all our services.
+        </p>
+        
+        <h3 style="color: #1f2937; margin-top: 20px; margin-bottom: 10px;">What you can do now:</h3>
+        <ul style="color: #4b5563; line-height: 1.5; margin-bottom: 20px; padding-left: 20px;">
+            <li>Book appointments with our healthcare professionals</li>
+            <li>View and manage your upcoming appointments</li>
+            <li>Receive appointment reminders via email and SMS</li>
+            <li>Access your medical history and records</li>
+            <li>Communicate with your healthcare providers</li>
+        </ul>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ url('app_appointment_new') }}" 
+               style="background-color: #1a56db; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">
+                Book Your First Appointment
+            </a>
+        </div>
+    </div>
+
+    <div style="background-color: #f3f4f6; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+        <h3 style="color: #1f2937; margin-bottom: 15px;">Need Help Getting Started?</h3>
+        <ul style="color: #4b5563; line-height: 1.5; padding-left: 20px;">
+            <li>
+                <a href="{{ url('app_faq') }}" style="color: #1a56db; text-decoration: none;">
+                    Check our FAQ section
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('app_contact') }}" style="color: #1a56db; text-decoration: none;">
+                    Contact our support team
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('app_services') }}" style="color: #1a56db; text-decoration: none;">
+                    Browse our services
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <p style="color: #6b7280; font-size: 14px; margin-bottom: 10px;">
+            Follow us on social media:
+        </p>
+        <div style="margin-bottom: 20px;">
+            <a href="#" style="color: #1a56db; text-decoration: none; margin: 0 10px;">Facebook</a>
+            <a href="#" style="color: #1a56db; text-decoration: none; margin: 0 10px;">Twitter</a>
+            <a href="#" style="color: #1a56db; text-decoration: none; margin: 0 10px;">LinkedIn</a>
+            <a href="#" style="color: #1a56db; text-decoration: none; margin: 0 10px;">Instagram</a>
+        </div>
+        <p style="color: #6b7280; font-size: 12px;">
+            This email was sent to {{ user.email }}. If you did not create an account with {{ site_name }}, 
+            please ignore this email or <a href="{{ url('app_contact') }}" style="color: #1a56db; text-decoration: none;">contact us</a>.
+        </p>
+    </div>
+
+    <div style="border-top: 1px solid #e5e7eb; margin-top: 30px; padding-top: 20px; text-align: center;">
+        <p style="color: #6b7280; font-size: 12px; margin-bottom: 10px;">
+            {{ site_name }} - Professional Healthcare Services
+        </p>
+        <p style="color: #6b7280; font-size: 12px;">
+            123 Medical Center Drive, Healthcare City, HC 12345
+        </p>
+        <p style="color: #6b7280; font-size: 12px;">
+            <a href="{{ url('app_privacy') }}" style="color: #1a56db; text-decoration: none;">Privacy Policy</a> | 
+            <a href="{{ url('app_terms') }}" style="color: #1a56db; text-decoration: none;">Terms of Service</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
