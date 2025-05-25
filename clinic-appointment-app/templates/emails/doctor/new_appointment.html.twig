@@ -1,0 +1,106 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}New Appointment Scheduled - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #1a56db; margin-bottom: 10px;">New Appointment Scheduled</h1>
+        <p style="color: #4b5563; font-size: 16px;">
+            A new appointment has been scheduled with you
+        </p>
+    </div>
+
+    <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+        <p style="color: #4b5563; line-height: 1.5; margin-bottom: 20px;">
+            Dear Dr. {{ appointment.doctor.fullName }},
+        </p>
+        <p style="color: #4b5563; line-height: 1.5; margin-bottom: 20px;">
+            A new appointment has been scheduled with you at {{ site_name }}.
+        </p>
+
+        <div style="background-color: #f3f4f6; border-radius: 6px; padding: 20px; margin: 20px 0;">
+            <h3 style="color: #1f2937; margin-bottom: 15px;">Appointment Details</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Patient:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ appointment.patient.fullName }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Date:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ appointment.date|date('l, F j, Y') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Time:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ appointment.time|date('g:i a') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Service:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ appointment.service.name }}
+                    </td>
+                </tr>
+                {% if appointment.notes %}
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Notes:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ appointment.notes }}
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ url('app_doctor_appointment_show', {id: appointment.id}) }}" 
+               style="background-color: #1a56db; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">
+                View Appointment Details
+            </a>
+        </div>
+    </div>
+
+    <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px;">
+        <h3 style="color: #1f2937; margin-bottom: 15px;">Patient Information</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <td style="padding: 8px 0; color: #6b7280;">Email:</td>
+                <td style="padding: 8px 0; color: #1f2937;">
+                    <a href="mailto:{{ appointment.patient.email }}" style="color: #1a56db; text-decoration: none;">
+                        {{ appointment.patient.email }}
+                    </a>
+                </td>
+            </tr>
+            {% if appointment.patient.phoneNumber %}
+            <tr>
+                <td style="padding: 8px 0; color: #6b7280;">Phone:</td>
+                <td style="padding: 8px 0; color: #1f2937;">
+                    <a href="tel:{{ appointment.patient.phoneNumber }}" style="color: #1a56db; text-decoration: none;">
+                        {{ appointment.patient.phoneNumber }}
+                    </a>
+                </td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <p style="color: #6b7280; font-size: 14px;">
+            Add this appointment to your calendar:
+        </p>
+        <div style="margin: 15px 0;">
+            <a href="{{ appointment.googleCalendarLink }}" style="color: #1a56db; text-decoration: none; margin: 0 10px;">
+                Google Calendar
+            </a>
+            <a href="{{ appointment.icsFileLink }}" style="color: #1a56db; text-decoration: none; margin: 0 10px;">
+                iCal / Outlook
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
