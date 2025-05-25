@@ -1,0 +1,171 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book Appointment - {{ parent() }}{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl mx-auto">
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h1 class="text-2xl font-bold text-gray-900 mb-6">Book an Appointment</h1>
+
+            <div class="space-y-8">
+                {# Step 1: Select Doctor #}
+                <div class="border-b border-gray-200 pb-6">
+                    <h2 class="text-lg font-medium text-gray-900 mb-4">1. Choose a Doctor</h2>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        {% for doctor in doctors %}
+                            <div class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                <div class="flex-shrink-0">
+                                    <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-gray-100">
+                                        <i class="fas fa-user-md text-gray-600 text-xl"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <label class="block focus:outline-none">
+                                        <input type="radio" name="doctor" value="{{ doctor.id }}" 
+                                               class="sr-only peer" required
+                                               data-doctor-id="{{ doctor.id }}">
+                                        <span class="absolute inset-0 cursor-pointer"></span>
+                                        <p class="text-sm font-medium text-gray-900">
+                                            Dr. {{ doctor.user.fullName }}
+                                        </p>
+                                        <p class="text-sm text-gray-500">
+                                            {{ doctor.specialization }}
+                                        </p>
+                                    </label>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {# Step 2: Select Service #}
+                <div class="border-b border-gray-200 pb-6">
+                    <h2 class="text-lg font-medium text-gray-900 mb-4">2. Select a Service</h2>
+                    <div class="grid grid-cols-1 gap-4">
+                        {% for service in services %}
+                            <div class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                <div class="flex-1 min-w-0">
+                                    <label class="block focus:outline-none">
+                                        <input type="radio" name="service" value="{{ service.id }}" 
+                                               class="sr-only peer" required
+                                               data-service-id="{{ service.id }}"
+                                               data-duration="{{ service.duration }}">
+                                        <span class="absolute inset-0 cursor-pointer"></span>
+                                        <div class="flex justify-between items-center">
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900">
+                                                    {{ service.name }}
+                                                </p>
+                                                <p class="text-sm text-gray-500">
+                                                    Duration: {{ service.duration }} minutes
+                                                </p>
+                                            </div>
+                                            <div class="text-sm font-medium text-gray-900">
+                                                ${{ service.price|number_format(2) }}
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {# Step 3: Select Date & Time #}
+                <div>
+                    <h2 class="text-lg font-medium text-gray-900 mb-4">3. Choose Date & Time</h2>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div>
+                            <label for="appointment_date" class="block text-sm font-medium text-gray-700">Date</label>
+                            <input type="date" id="appointment_date" name="date" required
+                                   min="{{ 'now'|date('Y-m-d') }}"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="appointment_time" class="block text-sm font-medium text-gray-700">Time</label>
+                            <select id="appointment_time" name="time" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                <option value="">Select a time</option>
+                                {% for hour in 9..17 %}
+                                    {% for minute in [0, 30] %}
+                                        <option value="{{ hour|format('%02d') }}:{{ minute|format('%02d') }}">
+                                            {{ hour|format('%02d') }}:{{ minute|format('%02d') }}
+                                        </option>
+                                    {% endfor %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {# Notes #}
+                <div>
+                    <label for="notes" class="block text-sm font-medium text-gray-700">Additional Notes</label>
+                    <textarea id="notes" name="notes" rows="3"
+                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                              placeholder="Any special requirements or concerns..."></textarea>
+                </div>
+
+                {# Submit Button #}
+                <div class="flex justify-end">
+                    <button type="submit"
+                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i class="fas fa-calendar-check mr-2"></i>
+                        Book Appointment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const doctorInputs = document.querySelectorAll('input[name="doctor"]');
+    const serviceInputs = document.querySelectorAll('input[name="service"]');
+    const dateInput = document.getElementById('appointment_date');
+    const timeInput = document.getElementById('appointment_time');
+
+    // Highlight selected doctor and service
+    function handleSelection(inputs) {
+        inputs.forEach(input => {
+            input.addEventListener('change', function() {
+                inputs.forEach(i => {
+                    const card = i.closest('.relative');
+                    if (i.checked) {
+                        card.classList.add('ring-2', 'ring-blue-500');
+                    } else {
+                        card.classList.remove('ring-2', 'ring-blue-500');
+                    }
+                });
+            });
+        });
+    }
+
+    handleSelection(doctorInputs);
+    handleSelection(serviceInputs);
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const doctor = document.querySelector('input[name="doctor"]:checked');
+        const service = document.querySelector('input[name="service"]:checked');
+        const date = dateInput.value;
+        const time = timeInput.value;
+
+        if (!doctor || !service || !date || !time) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
+        // Submit the form
+        this.submit();
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}
