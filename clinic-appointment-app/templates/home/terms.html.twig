@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Terms of Service - {{ parent() }}{% endblock %}
+
+{% block body %}
+<div class="bg-white">
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Terms of Service</h1>
+            <p class="mt-4 text-gray-500">Last updated: {{ "now"|date("F j, Y") }}</p>
+
+            <div class="mt-8 prose prose-blue max-w-none">
+                <h2>1. Agreement to Terms</h2>
+                <p>
+                    By accessing and using {{ site_name }}'s website and services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
+                </p>
+
+                <h2>2. Description of Services</h2>
+                <p>
+                    {{ site_name }} provides an online platform for scheduling medical appointments and related healthcare services. Our services include:
+                </p>
+                <ul>
+                    <li>Online appointment booking</li>
+                    <li>Medical consultation scheduling</li>
+                    <li>Appointment reminders and notifications</li>
+                    <li>Medical records management</li>
+                    <li>Healthcare provider communication</li>
+                </ul>
+
+                <h2>3. User Accounts</h2>
+                <p>
+                    To use our services, you must:
+                </p>
+                <ul>
+                    <li>Create an account with accurate information</li>
+                    <li>Maintain the security of your account credentials</li>
+                    <li>Promptly notify us of any unauthorized access</li>
+                    <li>Be at least 18 years old or have parental consent</li>
+                </ul>
+
+                <h2>4. Appointment Policies</h2>
+                <h3>4.1 Booking</h3>
+                <p>
+                    When booking appointments through our platform:
+                </p>
+                <ul>
+                    <li>Provide accurate personal and medical information</li>
+                    <li>Arrive on time for scheduled appointments</li>
+                    <li>Follow any pre-appointment instructions provided</li>
+                    <li>Verify insurance coverage if applicable</li>
+                </ul>
+
+                <h3>4.2 Cancellations</h3>
+                <p>
+                    Our cancellation policy requires:
+                </p>
+                <ul>
+                    <li>24-hour notice for appointment cancellations</li>
+                    <li>Proper notification through our platform or by phone</li>
+                    <li>Understanding that late cancellations may incur fees</li>
+                </ul>
+
+                <h2>5. Payment Terms</h2>
+                <p>
+                    Users agree to:
+                </p>
+                <ul>
+                    <li>Pay all applicable fees at the time of service</li>
+                    <li>Provide valid payment information</li>
+                    <li>Be responsible for any insurance deductibles</li>
+                    <li>Pay cancellation fees if applicable</li>
+                </ul>
+
+                <h2>6. User Responsibilities</h2>
+                <p>
+                    Users must:
+                </p>
+                <ul>
+                    <li>Provide accurate and complete information</li>
+                    <li>Update personal information as needed</li>
+                    <li>Comply with all applicable laws and regulations</li>
+                    <li>Respect the privacy of others</li>
+                    <li>Not misuse or abuse our services</li>
+                </ul>
+
+                <h2>7. Privacy and Data Protection</h2>
+                <p>
+                    We protect your privacy in accordance with our Privacy Policy. By using our services, you consent to our collection and use of your information as described in the Privacy Policy.
+                </p>
+
+                <h2>8. Intellectual Property</h2>
+                <p>
+                    All content and materials on our platform are protected by intellectual property rights and may not be used without our permission.
+                </p>
+
+                <h2>9. Limitation of Liability</h2>
+                <p>
+                    {{ site_name }} is not liable for:
+                </p>
+                <ul>
+                    <li>Indirect or consequential damages</li>
+                    <li>Service interruptions or technical issues</li>
+                    <li>Third-party actions or content</li>
+                    <li>Medical outcomes or advice</li>
+                </ul>
+
+                <h2>10. Modifications to Terms</h2>
+                <p>
+                    We reserve the right to modify these terms at any time. Continued use of our services after changes constitutes acceptance of the modified terms.
+                </p>
+
+                <h2>11. Termination</h2>
+                <p>
+                    We may terminate or suspend access to our services immediately, without prior notice, for:
+                </p>
+                <ul>
+                    <li>Violation of these terms</li>
+                    <li>Fraudulent or illegal activities</li>
+                    <li>Behavior that harms other users</li>
+                    <li>Non-payment of fees</li>
+                </ul>
+
+                <h2>12. Contact Information</h2>
+                <p>
+                    For questions about these Terms of Service, please contact us:
+                </p>
+                <ul>
+                    <li>By email: legal@{{ site_name|lower }}.com</li>
+                    <li>By phone: +1 (555) 123-4567</li>
+                    <li>By mail: 123 Medical Center Drive, Healthcare City, HC 12345</li>
+                </ul>
+            </div>
+
+            <div class="mt-8 flex justify-center space-x-4">
+                <a href="{{ path('app_privacy') }}" 
+                   class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    Privacy Policy
+                </a>
+                <a href="{{ path('app_contact') }}" 
+                   class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
