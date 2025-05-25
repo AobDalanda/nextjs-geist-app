@@ -1,0 +1,234 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reports - {{ parent() }}{% endblock %}
+
+{% block body %}
+<div class="space-y-6">
+    <div class="sm:flex sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Reports</h1>
+            <p class="mt-2 text-sm text-gray-700">
+                View statistics and analytics for appointments and services.
+            </p>
+        </div>
+        <div class="mt-4 sm:mt-0">
+            <form id="date-range-form" class="flex space-x-4">
+                <div>
+                    <label for="start-date" class="block text-sm font-medium text-gray-700">Start Date</label>
+                    <input type="date" id="start-date" name="start_date" 
+                           value="{{ startDate|date('Y-m-d') }}"
+                           class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                </div>
+                <div>
+                    <label for="end-date" class="block text-sm font-medium text-gray-700">End Date</label>
+                    <input type="date" id="end-date" name="end_date" 
+                           value="{{ endDate|date('Y-m-d') }}"
+                           class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                </div>
+                <div class="flex items-end">
+                    <button type="submit"
+                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {# Statistics Overview #}
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {# Total Appointments #}
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-calendar text-blue-600 text-3xl"></i>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">
+                                Total Appointments
+                            </dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900">
+                                    {{ statistics.total }}
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Completed Appointments #}
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-check-circle text-green-600 text-3xl"></i>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">
+                                Completed
+                            </dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900">
+                                    {{ statistics.completed }}
+                                </div>
+                                <p class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
+                                    {{ statistics.total > 0 ? ((statistics.completed / statistics.total) * 100)|round }}%
+                                </p>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Cancelled Appointments #}
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-times-circle text-red-600 text-3xl"></i>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">
+                                Cancelled
+                            </dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900">
+                                    {{ statistics.cancelled }}
+                                </div>
+                                <p class="ml-2 flex items-baseline text-sm font-semibold text-red-600">
+                                    {{ statistics.total > 0 ? ((statistics.cancelled / statistics.total) * 100)|round }}%
+                                </p>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# No Shows #}
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-user-times text-yellow-600 text-3xl"></i>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">
+                                No Shows
+                            </dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900">
+                                    {{ statistics.no_show }}
+                                </div>
+                                <p class="ml-2 flex items-baseline text-sm font-semibold text-yellow-600">
+                                    {{ statistics.total > 0 ? ((statistics.no_show / statistics.total) * 100)|round }}%
+                                </p>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        {# Popular Services #}
+        <div class="bg-white shadow sm:rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Popular Services</h3>
+                <div class="mt-5">
+                    <div class="space-y-4">
+                        {% for service in popular_services %}
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="text-sm font-medium text-gray-900">{{ service.name }}</h4>
+                                        <p class="text-sm text-gray-500">{{ service.appointments|length }} appointments</p>
+                                    </div>
+                                    <div class="text-sm font-medium text-gray-900">
+                                        ${{ service.price|number_format(2) }}
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <div class="relative pt-1">
+                                        <div class="overflow-hidden h-2 text-xs flex rounded bg-blue-100">
+                                            <div style="width: {{ (service.appointments|length / total_appointments * 100)|round }}%"
+                                                 class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Doctor Performance #}
+        <div class="bg-white shadow sm:rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Doctor Performance</h3>
+                <div class="mt-5">
+                    <div class="space-y-4">
+                        {% for doctor in doctors %}
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="text-sm font-medium text-gray-900">Dr. {{ doctor.user.fullName }}</h4>
+                                        <p class="text-sm text-gray-500">{{ doctor.specialization }}</p>
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{ doctor.appointments|length }} appointments
+                                    </div>
+                                </div>
+                                <div class="mt-2 grid grid-cols-3 gap-2 text-xs">
+                                    <div class="text-green-600">
+                                        Completed: {{ doctor.completedAppointments|length }}
+                                    </div>
+                                    <div class="text-red-600">
+                                        Cancelled: {{ doctor.cancelledAppointments|length }}
+                                    </div>
+                                    <div class="text-yellow-600">
+                                        No Shows: {{ doctor.noShowAppointments|length }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('date-range-form');
+    const startDate = document.getElementById('start-date');
+    const endDate = document.getElementById('end-date');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (startDate.value && endDate.value) {
+            if (startDate.value > endDate.value) {
+                alert('Start date cannot be after end date');
+                return;
+            }
+            this.submit();
+        }
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}
