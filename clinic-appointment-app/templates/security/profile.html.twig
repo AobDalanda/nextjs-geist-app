@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
+        <h1 class="text-3xl font-bold mb-6">My Profile</h1>
+        
+        <div class="space-y-4">
+            <div class="border-b pb-4">
+                <h2 class="text-xl font-semibold mb-2">Account Information</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="text-gray-600">Email</div>
+                    <div>{{ user.email }}</div>
+                    
+                    <div class="text-gray-600">Role</div>
+                    <div>{{ user.roles ? user.roles[0]|replace({'ROLE_': ''}) : 'User' }}</div>
+                    
+                    <div class="text-gray-600">Account Created</div>
+                    <div>{{ user.createdAt ? user.createdAt|date('F j, Y') : 'N/A' }}</div>
+                </div>
+            </div>
+
+            {% if is_granted('ROLE_DOCTOR') and user.doctor %}
+            <div class="border-b pb-4">
+                <h2 class="text-xl font-semibold mb-2">Doctor Information</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="text-gray-600">Specialization</div>
+                    <div>{{ user.doctor.specialization }}</div>
+                    
+                    <div class="text-gray-600">License Number</div>
+                    <div>{{ user.doctor.licenseNumber }}</div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="flex justify-end space-x-4 pt-4">
+                <a href="{{ path('app_appointment_index') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                    View My Appointments
+                </a>
+                {% if is_granted('ROLE_DOCTOR') %}
+                <a href="{{ path('app_doctor_schedule') }}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                    Manage Schedule
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
