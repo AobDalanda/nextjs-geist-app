@@ -1,0 +1,12 @@
+{
+    "require": {
+        "doctrine/doctrine-bundle": "^2.14",
+        "doctrine/doctrine-migrations-bundle": "^3.4",
+        "symfonycasts/reset-password-bundle": "^1.23",
+        "symfonycasts/verify-email-bundle": "^1.17",
+        "symfony/http-client": "^7.2"
+    },
+    "require-dev": {
+        "symfony/maker-bundle": "^1.63"
+    }
+}
