@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ site_name }}{% endblock %}</title>
+    <style>
+        /* Reset styles */
+        body, div, p, h1, h2, h3, h4, h5, h6, ul, ol, li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Base styles */
+        body {
+            background-color: #f3f4f6;
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            color: #1f2937;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Container styles */
+        .email-wrapper {
+            background-color: #f3f4f6;
+            padding: 20px;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header styles */
+        .email-header {
+            background-color: #1a56db;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .email-header h1 {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Content styles */
+        .email-content {
+            padding: 24px;
+        }
+
+        /* Footer styles */
+        .email-footer {
+            background-color: #f9fafb;
+            padding: 24px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .email-footer p {
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        /* Button styles */
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1a56db;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 16px 0;
+        }
+
+        .button:hover {
+            background-color: #1e40af;
+        }
+
+        /* Link styles */
+        a {
+            color: #1a56db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Utility classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 {
+            margin-top: 16px;
+        }
+
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+
+        .text-sm {
+            font-size: 14px;
+        }
+
+        .text-gray {
+            color: #6b7280;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+            }
+
+            .email-content {
+                padding: 16px !important;
+            }
+
+            .button {
+                display: block;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-wrapper">
+        <div class="email-container">
+            <div class="email-header">
+                <h1>{{ site_name }}</h1>
+            </div>
+
+            <div class="email-content">
+                {% block content %}{% endblock %}
+            </div>
+
+            <div class="email-footer">
+                <p>
+                    {{ site_name }} - Professional Healthcare Services<br>
+                    123 Medical Center Drive, Healthcare City, HC 12345
+                </p>
+                <p>
+                    <a href="{{ url('app_privacy') }}">Privacy Policy</a> | 
+                    <a href="{{ url('app_terms') }}">Terms of Service</a>
+                </p>
+                <p class="mt-4 text-sm text-gray">
+                    This email was sent by {{ site_name }}. To unsubscribe from these emails, 
+                    please <a href="{{ url('app_contact') }}">contact us</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
