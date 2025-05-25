@@ -1,0 +1,117 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Appointment Reminder - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #1a56db; margin-bottom: 10px;">Appointment Reminder</h1>
+        <p style="color: #4b5563; font-size: 16px;">
+            Your appointment is coming up soon
+        </p>
+    </div>
+
+    <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+        <p style="color: #4b5563; line-height: 1.5; margin-bottom: 20px;">
+            Dear {{ appointment.patient.firstName }},
+        </p>
+        <p style="color: #4b5563; line-height: 1.5; margin-bottom: 20px;">
+            This is a friendly reminder that you have an upcoming appointment at {{ site_name }}.
+        </p>
+
+        <div style="background-color: #f3f4f6; border-radius: 6px; padding: 20px; margin: 20px 0;">
+            <h3 style="color: #1f2937; margin-bottom: 15px;">Appointment Details</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Date:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ appointment.date|date('l, F j, Y') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Time:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ appointment.time|date('g:i a') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Doctor:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        Dr. {{ appointment.doctor.fullName }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Service:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ appointment.service.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Location:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ clinic.address.street }}<br>
+                        {{ clinic.address.city }}, {{ clinic.address.state }} {{ clinic.address.zip }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ url('app_appointment_show', {id: appointment.id}) }}" 
+               style="background-color: #1a56db; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">
+                View Appointment Details
+            </a>
+        </div>
+    </div>
+
+    <div style="background-color: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+        <h3 style="color: #065f46; margin-bottom: 15px;">Preparation Instructions</h3>
+        <ul style="color: #065f46; line-height: 1.5; padding-left: 20px;">
+            <li>Please arrive 15 minutes before your appointment</li>
+            <li>Bring your ID and insurance card</li>
+            <li>Bring a list of current medications</li>
+            <li>Wear a face mask during your visit</li>
+            {% if appointment.service.preparationInstructions %}
+                <li>{{ appointment.service.preparationInstructions }}</li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <div style="background-color: #fff7ed; border: 1px solid #fdba74; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+        <h3 style="color: #9a3412; margin-bottom: 15px;">COVID-19 Screening</h3>
+        <p style="color: #9a3412; line-height: 1.5; margin-bottom: 15px;">
+            For everyone's safety, please reschedule if you have any of these symptoms:
+        </p>
+        <ul style="color: #9a3412; line-height: 1.5; padding-left: 20px;">
+            <li>Fever or chills</li>
+            <li>Cough or difficulty breathing</li>
+            <li>Loss of taste or smell</li>
+            <li>Close contact with someone who has COVID-19</li>
+        </ul>
+    </div>
+
+    <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px;">
+        <h3 style="color: #1f2937; margin-bottom: 15px;">Need to Reschedule?</h3>
+        <p style="color: #4b5563; margin-bottom: 15px;">
+            If you need to reschedule, please do so at least 24 hours in advance:
+        </p>
+        <ul style="color: #4b5563; line-height: 1.5; padding-left: 20px;">
+            <li>Call: {{ clinic.phone }}</li>
+            <li>Email: {{ clinic.email }}</li>
+            <li>
+                <a href="{{ url('app_appointment_edit', {id: appointment.id}) }}" 
+                   style="color: #1a56db; text-decoration: none;">
+                    Reschedule online
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <p style="color: #6b7280; font-size: 12px;">
+            This is an automated reminder. Please do not reply to this email.<br>
+            For questions or concerns, please contact us directly.
+        </p>
+    </div>
+</div>
+{% endblock %}
