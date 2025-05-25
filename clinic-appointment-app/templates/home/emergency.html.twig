@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Emergency Care{% endblock %}
+
+{% block body %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="p-6">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">Emergency Care</h1>
+                <p class="text-lg text-gray-600">24/7 Emergency Medical Services</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-red-50 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold text-red-700 mb-4">
+                        <i class="fas fa-phone-alt mr-2"></i>Emergency Contact
+                    </h2>
+                    <p class="text-red-600 text-lg font-bold mb-2">
+                        Emergency Number: {{ emergency_number }}
+                    </p>
+                    <p class="text-gray-600">
+                        Available 24/7 for immediate medical assistance
+                    </p>
+                </div>
+
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold text-blue-700 mb-4">
+                        <i class="fas fa-envelope mr-2"></i>Email Support
+                    </h2>
+                    <p class="text-blue-600 text-lg mb-2">
+                        <a href="mailto:{{ emergency_email }}" class="hover:underline">
+                            {{ emergency_email }}
+                        </a>
+                    </p>
+                    <p class="text-gray-600">
+                        For non-urgent medical inquiries
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">When to Seek Emergency Care</h2>
+                <ul class="space-y-4 text-gray-600">
+                    <li class="flex items-start">
+                        <i class="fas fa-exclamation-circle text-red-500 mt-1 mr-3"></i>
+                        <span>Severe chest pain or difficulty breathing</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-exclamation-circle text-red-500 mt-1 mr-3"></i>
+                        <span>Severe injuries or trauma</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-exclamation-circle text-red-500 mt-1 mr-3"></i>
+                        <span>Stroke symptoms (facial drooping, arm weakness, speech difficulty)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-exclamation-circle text-red-500 mt-1 mr-3"></i>
+                        <span>Severe allergic reactions</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="text-center">
+                <p class="text-gray-600 mb-4">
+                    If you're experiencing a medical emergency, don't hesitate to call our emergency number immediately.
+                </p>
+                <a href="tel:{{ emergency_number }}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
+                    <i class="fas fa-phone-alt mr-2"></i>
+                    Call Emergency Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
