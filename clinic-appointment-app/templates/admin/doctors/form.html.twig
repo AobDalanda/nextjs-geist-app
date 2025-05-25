@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ doctor is defined ? 'Edit' : 'Add' }} Doctor - {{ parent() }}{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl mx-auto">
+    <div class="mb-6">
+        <a href="{{ path('app_admin_doctors') }}" 
+           class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Doctors
+        </a>
+    </div>
+
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h1 class="text-2xl font-bold text-gray-900 mb-6">
+                {{ doctor is defined ? 'Edit Doctor' : 'Add New Doctor' }}
+            </h1>
+
+            <form method="post" class="space-y-6">
+                <input type="hidden" name="_token" value="{{ csrf_token(doctor is defined ? 'edit_doctor_' ~ doctor.id : 'new_doctor') }}">
+
+                {# User Account Information #}
+                <div class="bg-gray-50 px-4 py-5 sm:rounded-lg sm:p-6">
+                    <div class="md:grid md:grid-cols-3 md:gap-6">
+                        <div class="md:col-span-1">
+                            <h3 class="text-lg font-medium leading-6 text-gray-900">Account Information</h3>
+                            <p class="mt-1 text-sm text-gray-500">
+                                Doctor's login credentials and personal information.
+                            </p>
+                        </div>
+                        <div class="mt-5 md:mt-0 md:col-span-2 space-y-4">
+                            <div class="grid grid-cols-6 gap-6">
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
+                                    <input type="text" name="firstName" id="firstName" required
+                                           value="{{ doctor is defined ? doctor.user.firstName : '' }}"
+                                           class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+                                    <input type="text" name="lastName" id="lastName" required
+                                           value="{{ doctor is defined ? doctor.user.lastName : '' }}"
+                                           class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+
+                                <div class="col-span-6 sm:col-span-4">
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                    <input type="email" name="email" id="email" required
+                                           value="{{ doctor is defined ? doctor.user.email : '' }}"
+                                           {% if doctor is defined %}readonly{% endif %}
+                                           class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                    <input type="tel" name="phone" id="phone"
+                                           value="{{ doctor is defined ? doctor.user.phone : '' }}"
+                                           class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+
+                                {% if doctor is not defined %}
+                                    <div class="col-span-6 sm:col-span-3">
+                                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                        <input type="password" name="password" id="password" required
+                                               class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Professional Information #}
+                <div class="bg-gray-50 px-4 py-5 sm:rounded-lg sm:p-6">
+                    <div class="md:grid md:grid-cols-3 md:gap-6">
+                        <div class="md:col-span-1">
+                            <h3 class="text-lg font-medium leading-6 text-gray-900">Professional Information</h3>
+                            <p class="mt-1 text-sm text-gray-500">
+                                Doctor's specialization and professional details.
+                            </p>
+                        </div>
+                        <div class="mt-5 md:mt-0 md:col-span-2 space-y-4">
+                            <div>
+                                <label for="specialization" class="block text-sm font-medium text-gray-700">Specialization</label>
+                                <input type="text" name="specialization" id="specialization" required
+                                       value="{{ doctor is defined ? doctor.specialization : '' }}"
+                                       class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div>
+                                <label for="biography" class="block text-sm font-medium text-gray-700">Biography</label>
+                                <textarea name="biography" id="biography" rows="4"
+                                          class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">{{ doctor is defined ? doctor.biography : '' }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <a href="{{ path('app_admin_doctors') }}" 
+                       class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Cancel
+                    </a>
+                    <button type="submit"
+                            class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        {{ doctor is defined ? 'Update' : 'Create' }} Doctor
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
