@@ -1,0 +1,114 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Appointment Cancellation - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #1a56db; margin-bottom: 10px;">Appointment Cancelled</h1>
+        <p style="color: #4b5563; font-size: 16px;">
+            Your appointment has been cancelled
+        </p>
+    </div>
+
+    <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+        <p style="color: #4b5563; line-height: 1.5; margin-bottom: 20px;">
+            Dear {{ appointment.patient.firstName }},
+        </p>
+        <p style="color: #4b5563; line-height: 1.5; margin-bottom: 20px;">
+            This email confirms that your appointment has been cancelled as requested.
+        </p>
+
+        <div style="background-color: #f3f4f6; border-radius: 6px; padding: 20px; margin: 20px 0;">
+            <h3 style="color: #1f2937; margin-bottom: 15px;">Cancelled Appointment Details</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Date:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ appointment.date|date('l, F j, Y') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Time:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ appointment.time|date('g:i a') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Doctor:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        Dr. {{ appointment.doctor.fullName }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Service:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ appointment.service.name }}
+                    </td>
+                </tr>
+                {% if cancellationReason is defined and cancellationReason %}
+                <tr>
+                    <td style="padding: 8px 0; color: #6b7280;">Reason:</td>
+                    <td style="padding: 8px 0; color: #1f2937; font-weight: 500;">
+                        {{ cancellationReason }}
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+
+        {% if cancellationFee is defined and cancellationFee > 0 %}
+            <div style="background-color: #fff7ed; border: 1px solid #fdba74; border-radius: 6px; padding: 20px; margin: 20px 0;">
+                <h3 style="color: #9a3412; margin-bottom: 15px;">Cancellation Fee</h3>
+                <p style="color: #9a3412; line-height: 1.5;">
+                    Please note that a cancellation fee of ${{ cancellationFee }} has been applied according to our cancellation policy.
+                    This fee will be processed using your payment method on file.
+                </p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+        <h3 style="color: #1f2937; margin-bottom: 15px;">Would You Like to Reschedule?</h3>
+        <p style="color: #4b5563; margin-bottom: 20px;">
+            If you would like to schedule a new appointment, you can do so through our online booking system or by contacting us:
+        </p>
+        <div style="text-align: center; margin: 20px 0;">
+            <a href="{{ url('app_appointment_new') }}" 
+               style="background-color: #1a56db; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">
+                Schedule New Appointment
+            </a>
+        </div>
+        <ul style="color: #4b5563; line-height: 1.5; padding-left: 20px;">
+            <li>Call: {{ clinic.phone }}</li>
+            <li>Email: {{ clinic.email }}</li>
+            <li>
+                <a href="{{ url('app_contact') }}" 
+                   style="color: #1a56db; text-decoration: none;">
+                    Contact us online
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div style="background-color: #f3f4f6; border-radius: 8px; padding: 20px;">
+        <h3 style="color: #1f2937; margin-bottom: 15px;">Our Cancellation Policy</h3>
+        <p style="color: #4b5563; line-height: 1.5; margin-bottom: 15px;">
+            As a reminder, our cancellation policy requires:
+        </p>
+        <ul style="color: #4b5563; line-height: 1.5; padding-left: 20px;">
+            <li>24 hours notice for regular appointments</li>
+            <li>48 hours notice for specialized procedures</li>
+            <li>Late cancellations may incur a fee</li>
+            <li>No-shows are subject to our full cancellation fee</li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <p style="color: #6b7280; font-size: 12px;">
+            This is an automated message. Please do not reply to this email.<br>
+            For questions about this cancellation, please contact us directly.
+        </p>
+    </div>
+</div>
+{% endblock %}
